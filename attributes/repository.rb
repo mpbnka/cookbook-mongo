@@ -1,1 +1,11 @@
-default['mongo']['repository']['url'] = "https://repo.mongodb.org/yum/redhat/8/mongodb-org/5.0/x86_64/RPMS/mongodb-org-server-5.0.2-1.el8.x86_64.rpm"
+default['mongocookbook']['repository']['url'] = "http://repo.mongodb.org/yum/redhat/8Server/mongodb-org/5.0/x86_64/"
+default['mongocookbook']['init_dir'] = '/etc/init.d'
+default['mongocookbook']['default_init_name'] = 'mongod'
+default['mongocookbook']['platform_version'] = '8'
+default['mongodb']['sysconfig_file']['mongod'] = '/etc/sysconfig/mongodb'
+default['mongodb']['user'] = 'mongod'
+default['mongodb']['group'] = 'mongod'
+default['mongodb']['init_script_template'] = 'redhat-mongodb.init.erb'
+default['mongodb']['template_cookbook'] = 'mongocookbook'
+default['mongodb']['init_script_template'] = 'redhat-mongodb.init.erb'
+default['mongodb']['root_group'] = 'root'
