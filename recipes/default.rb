@@ -4,6 +4,11 @@
 #
 # Copyright:: 2021, The Authors, All Rights Reserved.
 
+# update yum
+execute 'yum_update_upgrade' do
+	command 'yum update && sudo yum upgrade'
+end
+
 node.override['mongodb']['package_name'] = 'mongodb-org'
 
 # install mongodb for redhat based systems
@@ -36,16 +41,21 @@ template "#{init_file} install" do
 end
 
 packager_opts = '--nogpgcheck'
-package_version = "5.0.2-1.el8"
+#package_version = "5.0.2-1.el8"
 # install
-package node[:mongocookbook][:package_name] do
-  options packager_opts
-  action :install
-  version package_version
+script "Start mongod" do
+	interpreter "bash"
+	code <<-EOH
+		systemctl start mongod.service
+	EOH
 end
 
-mongodb_instance node['mongocookbook']['instance_name'] do
-    mongodb_type 'mongod'
-    bind_ip      '0.0.0.0'
+#ensure mongo is enabled
+script "Enable Mongod" do
+	interpreter "bash"
+        code <<-EOH
+                chkconfig mongod on
+        EOH
 end
+
 
