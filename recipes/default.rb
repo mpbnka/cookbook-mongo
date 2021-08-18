@@ -22,32 +22,16 @@ end
 
 build_essential 'build-tools'
 
-init_file = File.join(node['mongocookbook']['init_dir'].to_s, node['mongocookbook']['default_init_name'].to_s)
-mode = '0755'
 
-
-template "#{init_file} install" do
-  path init_file
-  cookbook node['mongodb']['template_cookbook']
-  source node['mongodb']['init_script_template']
-  group node['mongodb']['root_group']
-  owner 'root'
-  mode mode
-  variables(
-    provides: 'mongod',
-    bind_ip: '0.0.0.0',
-  )
-  action :create_if_missing
-end
-
-packager_opts = '--nogpgcheck'
-#package_version = "5.0.2-1.el8"
 # install
-script "Start mongod" do
-	interpreter "bash"
-	code <<-EOH
-		systemctl start mongod.service
-	EOH
+# script "Start mongod" do
+# 	interpreter "bash"
+# 	code <<-EOH
+# 		systemctl start mongod.service
+# 	EOH
+# end
+service "mongod" do
+  action :start
 end
 
 #ensure mongo is enabled
